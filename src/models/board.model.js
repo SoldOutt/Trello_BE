@@ -22,9 +22,9 @@ const createNew = async (data) => {
             .collection(boardCollectionName)
             .insertOne(value)
         console.log(result)
-        // return result.ops[0]
+        return result
     } catch (err) {
-        console.log(err)
+        throw new Error(err)
     }
 }
 module.exports = { createNew }
