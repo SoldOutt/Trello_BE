@@ -9,7 +9,46 @@ POST http://localhost:3000/board
 content-type: application/json
 
 {
-    "title": "Nguyen Van Nam"
+    "title": "Board-1"
 }
 ################################
 
+POST http://localhost:3000/column
+content-type: application/json
+
+{
+    "boardId": "6129adc4a562e04cc024d991",
+    "title": "Column-1"
+}
+
+################################
+PUT http://localhost:3000/column/6129ade4a562e04cc024d992
+content-type: application/json
+
+{
+    "title": "Column1-updated"
+}
+################################    
+DELETE  http://localhost:3000/column/6129ade4a562e04cc024d992
+
+################################
+
+POST http://localhost:3000/task
+content-type: application/json
+
+{
+    "boardId": "6129adc4a562e04cc024d991",
+    "columnId": "6129ade4a562e04cc024d992",
+    "title": "Task-3"
+}
+
+################################################################
+PUT http://localhost:3000/task/612da3ca5db6824751cac696
+content-type: application/json
+
+{
+    "title": "Task3-Updatedd"
+}
+
+################################
+DELETE http://localhost:3000/task/612da3ca5db6824751cac696
