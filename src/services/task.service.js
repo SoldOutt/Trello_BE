@@ -1,8 +1,13 @@
 const taskModel = require('../models/task.model')
+const columnModel = require('../models/column.model')
 const taskService = {
     async createNew(data) {
         try {
             const result = await taskModel.createNew(data)
+            const taskOrder = await columnModel.pushTaskOrder(
+                result.columnId,
+                result._id.toString()
+            )
             return result
         } catch (error) {
             throw new Error(error)

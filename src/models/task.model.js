@@ -20,7 +20,7 @@ const validateSchema = async (data) => {
 const createNew = async (data) => {
     try {
         const value = await validateSchema(data)
-        console.log(value, data)
+
         const result = await getDB()
             .collection(taskCollectionName)
             .insertOne(value)
@@ -31,9 +31,7 @@ const createNew = async (data) => {
 
         return response
         // return result.ops[0]
-    } catch (err) {
-        console.log(err)
-    }
+    } catch (err) {}
 }
 
 const updateOne = async (id, data) => {
@@ -45,10 +43,9 @@ const updateOne = async (id, data) => {
                 { $set: data },
                 { new: true }
             )
-        console.log(result.value)
+
         return result.value
     } catch (err) {
-        console.log(err)
         throw new Error(err)
     }
 }
@@ -63,8 +60,7 @@ const deleteOne = async (id) => {
             )
         return result.value
     } catch (error) {
-        console.log(err)
         throw new Error(err)
     }
 }
-module.exports = { createNew, updateOne, deleteOne }
+module.exports = { createNew, updateOne, deleteOne, taskCollectionName }

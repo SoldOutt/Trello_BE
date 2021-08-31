@@ -25,14 +25,30 @@ const createNew = async (data) => {
         const response = await getDB()
             .collection(columnCollectionName)
             .findOne({ _id: result.insertedId })
-        console.log(response)
+
         return response
     } catch (err) {
-        console.log(err)
         throw new Error(err)
     }
 }
-
+const pushTaskOrder = async (columnId, taskId) => {
+    try {
+        const result = await getDB()
+            .collection(columnCollectionName)
+            .findOneAndUpdate(
+                { _id: ObjectId(columnId) },
+                {
+                    $push: {
+                        taskOrder: taskId,
+                    },
+                },
+                { new: true }
+            )
+        return result.value
+    } catch (error) {
+        throw new Error(error)
+    }
+}
 const updateOne = async (id, data) => {
     try {
         const result = await getDB()
@@ -42,10 +58,9 @@ const updateOne = async (id, data) => {
                 { $set: data },
                 { returnOrginal: false }
             )
-        console.log(result.value)
+
         return result.value
     } catch (err) {
-        console.log(err)
         throw new Error(err)
     }
 }
@@ -58,11 +73,16 @@ const deleteOne = async (id) => {
                 { $set: { destroyedAt: Date.now() } },
                 { new: true }
             )
-        console.log(result)
+
         return result.value
     } catch (err) {
-        console.log(err)
         throw new Error(err)
     }
 }
-module.exports = { createNew, updateOne, deleteOne }
+module.exports = {
+    createNew,
+    updateOne,
+    deleteOne,
+    pushTaskOrder,
+    columnCollectionName,
+}

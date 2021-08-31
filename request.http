@@ -18,18 +18,18 @@ content-type: application/json
 
 {
     "boardId": "6129adc4a562e04cc024d991",
-    "title": "Column-1"
+    "title": "Column-2"
 }
 
 ################################
-PUT http://localhost:3000/column/6129ade4a562e04cc024d992
+PUT http://localhost:3000/column/612e435733713980347ead3d
 content-type: application/json
 
 {
     "title": "Column1-updated"
 }
 ################################    
-DELETE  http://localhost:3000/column/6129ade4a562e04cc024d992
+DELETE  http://localhost:3000/column/612e435733713980347ead3d
 
 ################################
 
@@ -38,7 +38,7 @@ content-type: application/json
 
 {
     "boardId": "6129adc4a562e04cc024d991",
-    "columnId": "6129ade4a562e04cc024d992",
+    "columnId": "612e435733713980347ead3d",
     "title": "Task-3"
 }
 
@@ -52,3 +52,5 @@ content-type: application/json
 
 ################################
 DELETE http://localhost:3000/task/612da3ca5db6824751cac696
+################################
+GET http://localhost:3000/board/6129adc4a562e04cc024d991

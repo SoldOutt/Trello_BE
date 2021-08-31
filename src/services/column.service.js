@@ -1,8 +1,13 @@
 const columnModel = require('../models/column.model')
+const boardModel = require('../models/board.model')
 const columnService = {
     async createNew(data) {
         try {
             const result = await columnModel.createNew(data)
+            updateBoard = await boardModel.pushColumnOrder(
+                result.boardId,
+                result._id.toString()
+            )
             return result
         } catch (error) {
             throw new Error(error)
