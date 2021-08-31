@@ -1,4 +1,5 @@
 const { getDB } = require('../config/mongodb')
+const { ObjectID, ObjectId } = require('mongodb')
 const Joi = require('joi')
 
 const columnCollectionName = 'Columns'
@@ -18,14 +19,70 @@ const validateSchema = async (data) => {
 const createNew = async (data) => {
     try {
         const value = await validateSchema(data)
-        console.log(value, data)
         const result = await getDB()
             .collection(columnCollectionName)
             .insertOne(value)
-        console.log(result)
-        // return result.ops[0]
+        const response = await getDB()
+            .collection(columnCollectionName)
+            .findOne({ _id: result.insertedId })
+
+        return response
     } catch (err) {
-        console.log(err)
+        throw new Error(err)
     }
 }
-module.exports = { createNew }
+const pushTaskOrder = async (columnId, taskId) => {
+    try {
+        const result = await getDB()
+            .collection(columnCollectionName)
+            .findOneAndUpdate(
+                { _id: ObjectId(columnId) },
+                {
+                    $push: {
+                        taskOrder: taskId,
+                    },
+                },
+                { new: true }
+            )
+        return result.value
+    } catch (error) {
+        throw new Error(error)
+    }
+}
+const updateOne = async (id, data) => {
+    try {
+        const result = await getDB()
+            .collection(columnCollectionName)
+            .findOneAndUpdate(
+                { _id: ObjectId(id) },
+                { $set: data },
+                { returnOrginal: false }
+            )
+
+        return result.value
+    } catch (err) {
+        throw new Error(err)
+    }
+}
+const deleteOne = async (id) => {
+    try {
+        const result = await getDB()
+            .collection(columnCollectionName)
+            .findOneAndUpdate(
+                { _id: ObjectId(id) },
+                { $set: { destroyedAt: Date.now() } },
+                { new: true }
+            )
+
+        return result.value
+    } catch (err) {
+        throw new Error(err)
+    }
+}
+module.exports = {
+    createNew,
+    updateOne,
+    deleteOne,
+    pushTaskOrder,
+    columnCollectionName,
+}

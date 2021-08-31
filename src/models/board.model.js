@@ -1,5 +1,8 @@
 const { getDB } = require('../config/mongodb')
 const Joi = require('joi')
+const columnModel = require('./column.model')
+const taskModel = require('./task.model')
+const { ObjectId } = require('mongodb')
 
 const boardCollectionName = 'Boards'
 const boardCollectionSchema = Joi.object({
@@ -17,14 +20,76 @@ const validateSchema = async (data) => {
 const createNew = async (data) => {
     try {
         const value = await validateSchema(data)
-        console.log(value, data)
         const result = await getDB()
             .collection(boardCollectionName)
             .insertOne(value)
-        console.log(result)
-        return result
+        const response = await getDB()
+            .collection(columnCollectionName)
+            .findOne({ _id: result.insertedId })
+
+        return response
     } catch (err) {
         throw new Error(err)
     }
 }
-module.exports = { createNew }
+const pushColumnOrder = async (boardId, columnId) => {
+    try {
+        const result = await getDB()
+            .collection(boardCollectionName)
+            .findOneAndUpdate(
+                { _id: ObjectId(boardId) },
+                {
+                    $push: {
+                        columnOrder: columnId,
+                    },
+                },
+                { new: true }
+            )
+        return result.value
+    } catch (error) {
+        throw new Error(error)
+    }
+}
+const getFullBoard = async (id) => {
+    try {
+        const result = await getDB()
+            .collection(boardCollectionName)
+            .aggregate([
+                //tra du lieu noi nhieu bangr ( giong join trong sql)
+                {
+                    $match: {
+                        _id: ObjectId(id),
+                    },
+                },
+                {
+                    $addFields: {
+                        _id: {
+                            $toString: '$_id', //chuyen gia tri _id cua board ve String de su dung co ten bien la _id neu trung thi ghi de( khong anh huong trong database)
+                        },
+                    },
+                },
+                {
+                    $lookup: {
+                        from: columnModel.columnCollectionName, //ten bang muon noi
+                        localField: '_id',
+                        foreignField: 'boardId', //ten khoa phu noi voi bang dang xet
+                        as: 'columns',
+                    },
+                },
+                {
+                    $lookup: {
+                        from: taskModel.taskCollectionName, //ten bang muon noi
+                        localField: '_id',
+                        foreignField: 'boardId', //ten khoa phu noi voi bang dang xet
+                        as: 'tasks',
+                    },
+                },
+            ])
+            .toArray()
+
+        return result[0] || {}
+    } catch (err) {
+        throw new Error(err)
+    }
+}
+module.exports = { createNew, getFullBoard, pushColumnOrder }

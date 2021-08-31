@@ -1,5 +1,6 @@
 const { getDB } = require('../config/mongodb')
 const Joi = require('joi')
+const { ObjectId } = require('mongodb')
 
 const taskCollectionName = 'Tasks'
 const taskCollectionSchema = Joi.object({
@@ -19,14 +20,47 @@ const validateSchema = async (data) => {
 const createNew = async (data) => {
     try {
         const value = await validateSchema(data)
-        console.log(value, data)
+
         const result = await getDB()
             .collection(taskCollectionName)
             .insertOne(value)
-        console.log(result)
+
+        const response = await getDB()
+            .collection(taskCollectionName)
+            .findOne({ _id: result.insertedId })
+
+        return response
         // return result.ops[0]
+    } catch (err) {}
+}
+
+const updateOne = async (id, data) => {
+    try {
+        const result = await getDB()
+            .collection(taskCollectionName)
+            .findOneAndUpdate(
+                { _id: ObjectId(id) },
+                { $set: data },
+                { new: true }
+            )
+
+        return result.value
     } catch (err) {
-        console.log(err)
+        throw new Error(err)
     }
 }
-module.exports = { createNew }
+const deleteOne = async (id) => {
+    try {
+        const result = await getDB()
+            .collection(taskCollectionName)
+            .findOneAndUpdate(
+                { _id: ObjectId(id) },
+                { $set: { destroyedAt: Date.now() } },
+                { new: true }
+            )
+        return result.value
+    } catch (error) {
+        throw new Error(err)
+    }
+}
+module.exports = { createNew, updateOne, deleteOne, taskCollectionName }
