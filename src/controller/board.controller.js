@@ -17,7 +17,9 @@ const boardController = {
 
             res.json({ status: 'true', data: result })
         } catch (error) {
-            res.status(400).json({ status: 'false', message: error.message })
+            console.log(error.message)
+
+            res.status(500).json({ status: 'false', message: error.message })
         }
     },
 }

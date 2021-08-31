@@ -11,6 +11,10 @@ const boardService = {
     async getFullBoard(id) {
         try {
             const result = await boardModel.getFullBoard(id)
+
+            if (!result) {
+                throw new Error('Board not found')
+            }
             const dataBoard = { ...result }
             dataBoard.columns.forEach((column) => {
                 column.tasks = result.tasks.filter(
@@ -18,8 +22,10 @@ const boardService = {
                 )
             })
             delete dataBoard.tasks
+
             return dataBoard
         } catch (error) {
+            console.log(error.message)
             throw new Error(error)
         }
     },
