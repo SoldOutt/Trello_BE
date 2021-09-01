@@ -58,7 +58,6 @@ const updateOne = async (id, data) => {
                 { $set: data },
                 { returnOrginal: false }
             )
-
         return result.value
     } catch (err) {
         throw new Error(err)

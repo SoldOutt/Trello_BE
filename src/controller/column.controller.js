@@ -5,6 +5,7 @@ const columnController = {
             const result = await columnService.createNew(req.body)
             res.json({ status: 'true', data: result })
         } catch (error) {
+            console.log(error.message)
             res.status(400).json({ status: 'false', message: error.message })
         }
     },
@@ -15,16 +16,19 @@ const columnController = {
 
             res.json({ status: 'true', data: result })
         } catch (error) {
+            console.log(error.message)
             res.status(400).json({ status: 'false', message: error.message })
         }
     },
     async deleteOne(req, res) {
         try {
             const { id } = req.params
+
             const result = await columnService.deleteOne(id)
 
             res.json({ status: 'true', data: result })
         } catch (error) {
+            console.log(error.message)
             res.status(400).json({ status: 'false', message: error.message })
         }
     },

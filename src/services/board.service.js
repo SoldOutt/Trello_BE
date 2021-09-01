@@ -16,11 +16,16 @@ const boardService = {
                 throw new Error('Board not found')
             }
             const dataBoard = { ...result }
+
+            dataBoard.columns = dataBoard.columns.filter(
+                (column) => column.destroyedAt === null
+            )
             dataBoard.columns.forEach((column) => {
                 column.tasks = result.tasks.filter(
                     (task) => task.columnId.toString() === column._id.toString()
                 )
             })
+
             delete dataBoard.tasks
 
             return dataBoard

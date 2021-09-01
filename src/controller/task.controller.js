@@ -2,9 +2,11 @@ const taskService = require('../services/task.service')
 const taskController = {
     async createNew(req, res) {
         try {
+            console.log(req.body)
             const result = await taskService.createNew(req.body)
             res.json({ status: 'true', data: result })
         } catch (error) {
+            console.log(error.message)
             res.status(400).json({ status: 'false', message: error.message })
         }
     },
@@ -12,7 +14,6 @@ const taskController = {
         try {
             const { id } = req.params
             const result = await taskService.updateOne(id, req.body)
-
             res.json({ status: 'true', data: result })
         } catch (error) {
             res.status(400).json({ status: 'false', message: error.message })
