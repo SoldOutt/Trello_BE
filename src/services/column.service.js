@@ -8,6 +8,8 @@ const columnService = {
                 result.boardId,
                 result._id.toString()
             )
+            result.tasks = []
+            result.taskOrder = []
             return result
         } catch (error) {
             throw new Error(error)
@@ -19,9 +21,11 @@ const columnService = {
                 ...data,
                 updatedAt: Date.now(),
             }
+            console.log(updateData)
             const result = await columnModel.updateOne(id, updateData)
             return result
         } catch (error) {
+            console.log(error.message)
             throw new Error(error)
         }
     },
