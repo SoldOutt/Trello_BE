@@ -32,6 +32,20 @@ const createNew = async (data) => {
         throw new Error(err)
     }
 }
+const updateOne = async (id, data) => {
+    try {
+        const result = await getDB()
+            .collection(boardCollectionName)
+            .findOneAndUpdate(
+                { _id: ObjectId(id) },
+                { $set: data },
+                { returnOrginal: false }
+            )
+        return result.value
+    } catch (error) {
+        throw new Error(err)
+    }
+}
 const pushColumnOrder = async (boardId, columnId) => {
     try {
         const result = await getDB()
@@ -92,4 +106,4 @@ const getFullBoard = async (id) => {
         throw new Error(err)
     }
 }
-module.exports = { createNew, getFullBoard, pushColumnOrder }
+module.exports = { createNew, getFullBoard, pushColumnOrder, updateOne }

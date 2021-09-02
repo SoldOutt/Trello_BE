@@ -1,4 +1,5 @@
 const boardModel = require('../models/board.model')
+const { cloneDeep } = require('lodash')
 const boardService = {
     async createNew(data) {
         try {
@@ -15,7 +16,7 @@ const boardService = {
             if (!result) {
                 throw new Error('Board not found')
             }
-            const dataBoard = { ...result }
+            const dataBoard = cloneDeep(result)
 
             dataBoard.columns = dataBoard.columns.filter(
                 (column) => column.destroyedAt === null
@@ -29,6 +30,18 @@ const boardService = {
             delete dataBoard.tasks
 
             return dataBoard
+        } catch (error) {
+            console.log(error.message)
+            throw new Error(error)
+        }
+    },
+    async updateOne(id, data) {
+        try {
+            const boardUpdate = cloneDeep(data)
+            boardUpdate.updatedAt = Date.now()
+            const result = await boardModel.updateOne(id, data)
+
+            return result
         } catch (error) {
             console.log(error.message)
             throw new Error(error)

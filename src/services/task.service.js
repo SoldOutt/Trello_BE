@@ -19,6 +19,7 @@ const taskService = {
                 ...data,
                 updatedAt: Date.now(),
             }
+            if (updateData._id) delete updateData._id
             const result = await taskModel.updateOne(id, updateData)
             return result
         } catch (error) {
