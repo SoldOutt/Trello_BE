@@ -8,5 +8,8 @@ router
         res.send('board get')
     })
     .post(boardValidation.createNew, boardController.createNew)
-router.route('/:id').get(boardController.getFullBoard)
+router
+    .route('/:id')
+    .get(boardController.getFullBoard)
+    .put(boardController.updateOne)
 module.exports = router
