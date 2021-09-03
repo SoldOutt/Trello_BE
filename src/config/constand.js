@@ -1,4 +1,4 @@
-whitelist = ['http://localhost:3000', 'http://example2.com']
+whitelist = ['http://localhost:3000', 'http://localhost:5000']
 module.exports = {
     corsOptions: {
         origin: function (origin, callback) {

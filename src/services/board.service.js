@@ -9,6 +9,14 @@ const boardService = {
             throw new Error(error)
         }
     },
+    async getAllBoard() {
+        try {
+            const result = await boardModel.getAllBoard()
+            return result
+        } catch (error) {
+            throw new Error(error)
+        }
+    },
     async getFullBoard(id) {
         try {
             const result = await boardModel.getFullBoard(id)

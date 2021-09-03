@@ -15,7 +15,7 @@ db.connectDB()
 const bootServer = () => {
     const app = express()
     app.use(express.json())
-    app.use(cors(constand.corsOptions))
+    app.use(cors())
     app.use('/', api)
     app.listen(port, () => {
         console.log(`Example app listening at http://localhost:${port}`)

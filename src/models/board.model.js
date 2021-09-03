@@ -17,6 +17,7 @@ const validateSchema = async (data) => {
         abortEarly: false,
     })
 }
+
 const createNew = async (data) => {
     try {
         const value = await validateSchema(data)
@@ -24,7 +25,7 @@ const createNew = async (data) => {
             .collection(boardCollectionName)
             .insertOne(value)
         const response = await getDB()
-            .collection(columnCollectionName)
+            .collection(boardCollectionName)
             .findOne({ _id: result.insertedId })
 
         return response
@@ -44,6 +45,18 @@ const updateOne = async (id, data) => {
         return result.value
     } catch (error) {
         throw new Error(err)
+    }
+}
+const getAllBoard = async () => {
+    try {
+        const response = await getDB()
+            .collection(boardCollectionName)
+            .find()
+            .toArray()
+
+        return response
+    } catch (error) {
+        throw new Error(error)
     }
 }
 const pushColumnOrder = async (boardId, columnId) => {
@@ -106,4 +119,10 @@ const getFullBoard = async (id) => {
         throw new Error(err)
     }
 }
-module.exports = { createNew, getFullBoard, pushColumnOrder, updateOne }
+module.exports = {
+    getAllBoard,
+    createNew,
+    getFullBoard,
+    pushColumnOrder,
+    updateOne,
+}

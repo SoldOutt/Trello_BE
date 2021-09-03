@@ -4,9 +4,7 @@ const boardController = require('../controller/board.controller')
 const boardValidation = require('../validation/board.validation')
 router
     .route('/')
-    .get((req, res) => {
-        res.send('board get')
-    })
+    .get(boardController.getAllBoard)
     .post(boardValidation.createNew, boardController.createNew)
 router
     .route('/:id')
