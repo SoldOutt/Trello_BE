@@ -50,3 +50,21 @@ content-type: application/json
 DELETE http://localhost:5000/task/612da3ca5db6824751cac696
 ################################
 GET http://localhost:5000/board/6129adc4a562e04cc024d991
+
+################################
+Post http://localhost:5000/auth/register
+Content-Type: application/json
+
+{
+    "username": "nam1", 
+    "password":"nam"
+}
+
+################################
+Post http://localhost:5000/auth/login
+Content-Type: application/json
+
+{
+    "username": "nam1", 
+    "password":"nam"
+}
