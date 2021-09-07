@@ -3,9 +3,11 @@ GET http://localhost:5000/board/
 ################################
 POST http://localhost:5000/board
 content-type: application/json
+//Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTM2M2JlYjUzOTkzNDk0MzMyZDQxZGIiLCJpYXQiOjE2MzEwMzM3ODZ9.tYYN8zLKx71UW5TKJOHOzTbIpKH4omJTm783lpRyh5c
+
 
 {
-    "title": "Board-2"
+    "title": "Board_Nam-2"
 }
 ################################
 
@@ -56,7 +58,7 @@ Post http://localhost:5000/auth/register
 Content-Type: application/json
 
 {
-    "username": "nam1", 
+    "username": "nam2", 
     "password":"nam"
 }
 

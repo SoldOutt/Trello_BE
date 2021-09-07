@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 // const userModel = require('../models/auth.model')
 
 const verifytoken = (req, res, next) => {
-    const authHeader = req.headers.get('Authorization')
+    const authHeader = req.header('Authorization')
     const token = authHeader && authHeader.split(' ')[1]
     if (!token) {
         return res
@@ -13,9 +13,10 @@ const verifytoken = (req, res, next) => {
         const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
         console.log(decoded)
         req.userId = decoded.userId
+        next()
     } catch (error) {
         console.log(error)
         return res.status(403).json({ success: false, message: error.message })
     }
 }
-module.exports = verifytoken
+module.exports = { verifytoken }
