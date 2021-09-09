@@ -70,3 +70,9 @@ Content-Type: application/json
     "username": "nam1", 
     "password":"nam"
 }
+
+################################
+Get http://localhost:5000/auth/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTM2M2JlYjUzOTkzNDk0MzMyZDQxZGIiLCJpYXQiOjE2MzEyMDA5MDR9.9C6KtbkAq9WLFivF7hms1si4JBW8grUq1l262TidYn8
+ 

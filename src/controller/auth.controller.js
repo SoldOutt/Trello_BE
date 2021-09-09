@@ -72,5 +72,14 @@ const authController = {
             res.status(400).json({ success: false, error: error.message })
         }
     },
+    async getUser(req, res) {
+        try {
+            const result = await authService.getUser(req.userId)
+            res.json({ success: true, data: result })
+        } catch (error) {
+            console.log(error.message)
+            res.status(400).json({ success: false, error: error.message })
+        }
+    },
 }
 module.exports = authController

@@ -8,6 +8,14 @@ const authService = {
             throw new Error(error)
         }
     },
+    async getUser(userId) {
+        try {
+            const result = await authModel.findById(userId)
+            return result
+        } catch (error) {
+            throw new Error(error)
+        }
+    },
 }
 
 module.exports = authService

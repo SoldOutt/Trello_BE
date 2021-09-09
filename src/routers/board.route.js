@@ -5,7 +5,7 @@ const boardValidation = require('../validation/board.validation')
 const authMiddleware = require('../middleware/auth.middleware')
 router
     .route('/')
-    .get(authMiddleware.verifytoken, boardController.getAllBoard)
+    .get(boardController.getAllBoard)
     .post(
         authMiddleware.verifytoken,
         boardValidation.createNew,
@@ -13,6 +13,6 @@ router
     )
 router
     .route('/:id')
-    .get(authMiddleware.verifytoken, boardController.getFullBoard)
-    .put(authMiddleware.verifytoken, boardController.updateOne)
+    .get(boardController.getFullBoard)
+    .put(boardController.updateOne)
 module.exports = router
